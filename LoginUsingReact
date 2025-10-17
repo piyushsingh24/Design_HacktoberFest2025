@@ -1,0 +1,59 @@
+import React from 'react'
+import { useState } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
+
+
+const Login = () => {
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+
+  const { loginWithRedirect } = useAuth0();
+
+
+  const handleLogin = (provider) => {
+    loginWithRedirect({
+      connection: provider,
+      redirectUri: window.location.origin,
+    })
+  }
+
+
+  const loginWithGoogle = () => {
+    window.location.href = "http://localhost:5000/auth/google"
+  }
+
+  return (
+    <div className='main-login'>
+
+      <div className='Login-form'>
+        <h2>Welcome Back</h2>
+        <h3>Login to Continue </h3>
+
+        {/* form create */}
+
+        <form onSubmit={handleLogin} action="/" className='form'>
+          <input type="Email" placeholder='Enter your Email ' value={email} onChange={(e) => { setEmail(e.target.value) }} />
+          <input type="password" placeholder='Enter your Password ' value={password} onChange={(e) => { setPassword(e.target.value) }} />
+
+          <input type="submit" />
+
+
+        </form>
+        <div className='other-login'>
+
+          <button onClick={() => { handleLogin("google") }}>Login with Google </button>
+          <button onClick={() => { handleLogin("github") }}>Login with github </button>
+          <button><a href="/register">Register</a></button>
+
+        </div>
+      </div>
+
+
+    </div>
+
+  )
+}
+
+export default Login
